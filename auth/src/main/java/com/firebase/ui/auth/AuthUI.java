@@ -1206,6 +1206,7 @@ public final class AuthUI {
         String mTosUrl;
         String mPrivacyPolicyUrl;
         boolean mAlwaysShowProviderChoice = false;
+        boolean mNeverShowProviderChoice = false;
         boolean mEnableCredentials = true;
         boolean mEnableHints = true;
         AuthMethodPickerLayout mAuthMethodPickerLayout = null;
@@ -1360,6 +1361,28 @@ public final class AuthUI {
         @NonNull
         public T setAlwaysShowSignInMethodScreen(boolean alwaysShow) {
             mAlwaysShowProviderChoice = alwaysShow;
+            if (alwaysShow) {
+                mNeverShowProviderChoice = false;
+            }
+            return (T) this;
+        }
+
+        /**
+         * Forces the sign-in method choice screen to be skipped and instead uses the first
+         * provider in the list. The other providers can still be used as fallbacks if the
+         * first one fails.
+         * <p>
+         * <p>This is false by default.
+         *
+         * @param neverShow if true, always skip the sign-in choice screen and just use the
+         *                  first provider in the list.
+         */
+        @NonNull
+        public T setNeverShowSignInMethodScreen(boolean neverShow) {
+            mNeverShowProviderChoice = neverShow;
+            if (neverShow) {
+                mAlwaysShowProviderChoice = false;
+            }
             return (T) this;
         }
 
@@ -1439,6 +1462,7 @@ public final class AuthUI {
                     mEnableHints,
                     mEnableAnonymousUpgrade,
                     mAlwaysShowProviderChoice,
+                    mNeverShowProviderChoice,
                     mEmailLink,
                     mAuthMethodPickerLayout);
         }
