@@ -52,7 +52,6 @@ public class FlowParameters implements Parcelable {
             boolean enableHints = in.readInt() != 0;
             boolean enableAnonymousUpgrade = in.readInt() != 0;
             boolean alwaysShowProviderChoice = in.readInt() != 0;
-            boolean neverShowProviderChoice = in.readInt() != 0;
             String emailLink = in.readString();
             AuthMethodPickerLayout customLayout = in.readParcelable(AuthMethodPickerLayout.class.getClassLoader());
 
@@ -67,7 +66,6 @@ public class FlowParameters implements Parcelable {
                     enableHints,
                     enableAnonymousUpgrade,
                     alwaysShowProviderChoice,
-                    neverShowProviderChoice,
                     emailLink,
                     customLayout);
         }
@@ -103,7 +101,6 @@ public class FlowParameters implements Parcelable {
     public final boolean enableHints;
     public final boolean enableAnonymousUpgrade;
     public final boolean alwaysShowProviderChoice;
-    public final boolean neverShowProviderChoice;
 
     @Nullable
     public final AuthMethodPickerLayout authMethodPickerLayout;
@@ -119,7 +116,6 @@ public class FlowParameters implements Parcelable {
             boolean enableHints,
             boolean enableAnonymousUpgrade,
             boolean alwaysShowProviderChoice,
-            boolean neverShowProviderChoice,
             @Nullable String emailLink,
             @Nullable AuthMethodPickerLayout authMethodPickerLayout) {
         this.appName = Preconditions.checkNotNull(appName, "appName cannot be null");
@@ -133,7 +129,6 @@ public class FlowParameters implements Parcelable {
         this.enableHints = enableHints;
         this.enableAnonymousUpgrade = enableAnonymousUpgrade;
         this.alwaysShowProviderChoice = alwaysShowProviderChoice;
-        this.neverShowProviderChoice = neverShowProviderChoice;
         this.emailLink = emailLink;
         this.authMethodPickerLayout = authMethodPickerLayout;
     }
@@ -157,7 +152,6 @@ public class FlowParameters implements Parcelable {
         dest.writeInt(enableHints ? 1 : 0);
         dest.writeInt(enableAnonymousUpgrade ? 1 : 0);
         dest.writeInt(alwaysShowProviderChoice ? 1 : 0);
-        dest.writeInt(neverShowProviderChoice ? 1 : 0);
         dest.writeString(emailLink);
         dest.writeParcelable(authMethodPickerLayout, flags);
     }
@@ -184,6 +178,7 @@ public class FlowParameters implements Parcelable {
     }
 
     public boolean shouldShowProviderChoice() {
-        return !neverShowProviderChoice && (!isSingleProviderFlow() || alwaysShowProviderChoice);
+        return false;
+        //return !isSingleProviderFlow() || alwaysShowProviderChoice;
     }
 }
